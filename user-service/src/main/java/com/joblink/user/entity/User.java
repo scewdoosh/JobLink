@@ -1,6 +1,7 @@
 package com.joblink.user.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -28,12 +29,7 @@ public class User {
     private String providerId;
 
     @Column(name = "created_at")
-    private java.time.LocalDateTime createdAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = java.time.LocalDateTime.now();
-    }
+    private LocalDateTime createdAt;
 
     public enum Role {
         CANDIDATE, EMPLOYER, ADMIN
@@ -43,28 +39,82 @@ public class User {
         LOCAL, GOOGLE, GITHUB
     }
 
-    // Getters and Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public User() {}
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public User(String name, String email, String password, Role role, Provider provider) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.provider = provider;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getId() {
+        return id;
+    }
 
-    public Role getRole() { return role; }
-    public void setRole(Role role) { this.role = role; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public Provider getProvider() { return provider; }
-    public void setProvider(Provider provider) { this.provider = provider; }
+    public String getName() {
+        return name;
+    }
 
-    public String getProviderId() { return providerId; }
-    public void setProviderId(String providerId) { this.providerId = providerId; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public java.time.LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(java.time.LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }
