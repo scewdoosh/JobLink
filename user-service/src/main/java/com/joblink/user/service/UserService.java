@@ -1,5 +1,6 @@
 package com.joblink.user.service;
 
+import com.joblink.user.config.JwtUtil;
 import com.joblink.user.dto.AuthResponse;
 import com.joblink.user.dto.LoginRequest;
 import com.joblink.user.dto.RegisterRequest;
@@ -18,6 +19,9 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	@Autowired
+	private JwtUtil jwtUtil;
+
 	public User register(RegisterRequest request) {
 		if (userRepository.existsByEmail(request.getEmail())) {
 			throw new RuntimeException("Email already exists");
@@ -27,12 +31,13 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public User login(LoginRequest request) {
+	public AuthResponse login(LoginRequest request) {
 		User user = userRepository.findByEmail(request.getEmail())
 				.orElseThrow(() -> new RuntimeException("User not found"));
 		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 			throw new RuntimeException("Invalid password");
 		}
-		return user;
+		String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+		return new AuthResponse(token, user.getRole().name(), user.getEmail());
 	}
 }

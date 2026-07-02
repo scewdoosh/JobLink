@@ -1,5 +1,6 @@
 package com.joblink.user.controller;
 
+import com.joblink.user.dto.AuthResponse;
 import com.joblink.user.dto.LoginRequest;
 import com.joblink.user.dto.RegisterRequest;
 import com.joblink.user.entity.User;
@@ -22,8 +23,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<User> login(@RequestBody LoginRequest request) {
-		User user = userService.login(request);
-		return ResponseEntity.ok(user);
+	public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+		AuthResponse response = userService.login(request);
+		return ResponseEntity.ok(response);
 	}
 }
