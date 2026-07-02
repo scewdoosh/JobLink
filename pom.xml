@@ -33,11 +33,11 @@
 	</properties>
 	<modules>
 		<module>user-service</module>
-<!--		<module>profile-service</module>-->
-<!--		<module>job-posting-service</module>-->
-<!--		<module>application-service</module>-->
-<!--		<module>company-service</module>-->
-<!--		<module>notification-service</module>-->
+		<module>profile-service</module>
+		<module>job-posting-service</module>
+		<module>application-service</module>
+		<module>company-service</module>
+		<module>notification-service</module>
 		<module>api-gateway</module>
 		<module>eureka-server</module>
 	</modules>
