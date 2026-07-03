@@ -1,0 +1,53 @@
+### Maven ###
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### Java ###
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+### Spring Boot ###
+*.log
+spring.log
+
+### Application properties (all microservices) ###
+**/src/main/resources/application.properties
+**/src/main/resources/application-*.properties
+**/src/main/resources/application.yml
+**/src/main/resources/application-*.yml
+
+### IDE - IntelliJ ###
+.idea/
+*.iml
+*.iws
+out/
+
+### IDE - Eclipse/STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+
+### IDE - VS Code ###
+.vscode/
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+### Env files ###
+.env
+**/.env
+
+### Logs ###
+logs/
+*.log
