@@ -16,10 +16,25 @@ public class SecurityConfig {
 	@Autowired
 	private JwtFilter jwtFilter;
 
+	@Autowired
+	private OAuth2SuccessHandler oAuth2SuccessHandler;
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	//security config bean with jwt login (this bean does not contain oauth2 login)
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/register", "/api/auth/login",
+//				"/h2-console/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll().anyRequest()
+//				.authenticated()).csrf(csrf -> csrf.disable())
+//				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//				.headers(headers -> headers.frameOptions(frame -> frame.disable()))
+//				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+//		return http.build();
+//	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -28,6 +43,7 @@ public class SecurityConfig {
 				.authenticated()).csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.headers(headers -> headers.frameOptions(frame -> frame.disable()))
+				.oauth2Login(oauth2 -> oauth2.successHandler(oAuth2SuccessHandler))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
