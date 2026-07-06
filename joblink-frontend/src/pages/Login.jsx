@@ -33,7 +33,6 @@ export default function Login() {
     };
 
     return (
-        <>
         <div className="min-h-screen bg-[#f5f0eb] flex items-center justify-center px-4">
             <div className="bg-white rounded-3xl shadow-sm p-10 w-full max-w-md">
 
@@ -92,16 +91,18 @@ export default function Login() {
                 <div className="mt-6">
                     <p className="text-center text-sm text-gray-400 mb-4">or continue with</p>
                     <div className="flex gap-3">
-                        
+                        <a
                             href={`${import.meta.env.VITE_USER_SERVICE_URL}/oauth2/authorization/google`}
                             className="flex-1 flex items-center justify-center gap-2 py-3 border border-gray-200 rounded-xl text-sm hover:bg-gray-50 transition"
-                        </div>
+                        >
                             <img src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="Google" />
                             Google
-                        <a>
+                        </a>
                         
+                        <a
                             href={`${import.meta.env.VITE_USER_SERVICE_URL}/oauth2/authorization/github`}
                             className="flex-1 flex items-center justify-center gap-2 py-3 border border-gray-200 rounded-xl text-sm hover:bg-gray-50 transition"
+                        >
                             <span>🐙</span>
                             GitHub
                         </a>
@@ -115,6 +116,6 @@ export default function Login() {
                     </Link>
                 </p>
             </div>
-        </>
+        </div>
     );
 }
