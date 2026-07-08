@@ -9,6 +9,7 @@ public class CompanyRequest {
 	private String size;
 	private String website;
 	private String location;
+	private String logoUrl;
 
 	public CompanyRequest() {
 	}
@@ -67,5 +68,13 @@ public class CompanyRequest {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
 	}
 }

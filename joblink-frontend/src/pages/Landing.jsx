@@ -1,8 +1,18 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Landing() {
+    const { isAuthenticated, isEmployer, isCandidate } = useAuth();
+
+    // Determine CTA destinations based on auth state
+    const findJobsLink = isAuthenticated() ? '/jobs' : '/login';
+    const postJobLink = isAuthenticated() ? '/post-job' : '/login';
+
+    const showFindJobs = !isAuthenticated() || isCandidate();
+    const showPostJob = !isAuthenticated() || isEmployer();
+
     return (
-        <div className="min-h-screen bg-[#f5f0eb]">
+        <div className="min-h-[calc(100vh-64px)] bg-[#f5f0eb]">
 
             {/* Hero Section */}
             <div className="max-w-6xl mx-auto px-8 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -17,18 +27,26 @@ export default function Landing() {
                         JobLink is your all-in-one platform to connect talent with opportunities and build the future of work.
                     </p>
                     <div className="mt-8 flex gap-4">
-                        <Link
-                            to="/jobs"
-                            className="px-6 py-3 bg-[#b5621b] text-white rounded-full font-medium hover:bg-[#a0541a] transition"
-                        >
-                            Find Jobs
-                        </Link>
-                        <Link
-                            to="/post-job"
-                            className="px-6 py-3 border border-gray-800 text-gray-800 rounded-full font-medium hover:bg-gray-800 hover:text-white transition"
-                        >
-                            Post a Job
-                        </Link>
+                        {showFindJobs && (
+                            <Link
+                                to={findJobsLink}
+                                className="px-6 py-3 bg-[#b5621b] text-white rounded-full font-medium hover:bg-[#a0541a] transition"
+                            >
+                                Find Jobs
+                            </Link>
+                        )}
+                        {showPostJob && (
+                            <Link
+                                to={postJobLink}
+                                className={`px-6 py-3 rounded-full font-medium transition ${
+                                    showFindJobs
+                                        ? 'border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'
+                                        : 'bg-[#b5621b] text-white hover:bg-[#a0541a]'
+                                }`}
+                            >
+                                Post a Job
+                            </Link>
+                        )}
                     </div>
 
                     {/* Feature Cards */}

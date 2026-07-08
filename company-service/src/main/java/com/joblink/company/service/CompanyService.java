@@ -25,9 +25,12 @@ public class CompanyService {
 		company.setName(request.getName());
 		company.setDescription(request.getDescription());
 		company.setIndustry(request.getIndustry());
-		company.setSize(Company.Size.valueOf(request.getSize().toUpperCase()));
+		if (request.getSize() != null && !request.getSize().isBlank()) {
+			company.setSize(Company.Size.valueOf(request.getSize().toUpperCase()));
+		}
 		company.setWebsite(request.getWebsite());
 		company.setLocation(request.getLocation());
+		company.setLogoUrl(request.getLogoUrl());
 		return mapToResponse(companyRepository.save(company));
 	}
 
@@ -55,9 +58,12 @@ public class CompanyService {
 		company.setName(request.getName());
 		company.setDescription(request.getDescription());
 		company.setIndustry(request.getIndustry());
-		company.setSize(Company.Size.valueOf(request.getSize().toUpperCase()));
+		if (request.getSize() != null && !request.getSize().isBlank()) {
+			company.setSize(Company.Size.valueOf(request.getSize().toUpperCase()));
+		}
 		company.setWebsite(request.getWebsite());
 		company.setLocation(request.getLocation());
+		company.setLogoUrl(request.getLogoUrl());
 		return mapToResponse(companyRepository.save(company));
 	}
 
@@ -79,7 +85,7 @@ public class CompanyService {
 		response.setName(company.getName());
 		response.setDescription(company.getDescription());
 		response.setIndustry(company.getIndustry());
-		response.setSize(company.getSize().name());
+		response.setSize(company.getSize() != null ? company.getSize().name() : null);
 		response.setWebsite(company.getWebsite());
 		response.setLogoUrl(company.getLogoUrl());
 		response.setLocation(company.getLocation());

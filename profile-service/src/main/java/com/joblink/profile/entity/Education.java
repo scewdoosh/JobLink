@@ -18,6 +18,7 @@ public class Education {
 
 	private String degree;
 
+	@Column(name = "graduation_year")
 	private int year;
 
 	public Education() {

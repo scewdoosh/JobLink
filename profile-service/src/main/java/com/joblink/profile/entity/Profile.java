@@ -21,7 +21,18 @@ public class Profile {
 
 	private String skills;
 
-	private String resumeUrl;
+	@Lob
+	@Column(name = "resume_file")
+	private byte[] resumeFile;
+
+	private String resumeFileName;
+
+	@Lob
+	@Column(name = "profile_picture")
+	private byte[] profilePicture;
+
+	@Column(name = "profile_picture_type")
+	private String profilePictureType;
 
 	@OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Experience> experiences;
@@ -80,12 +91,36 @@ public class Profile {
 		this.skills = skills;
 	}
 
-	public String getResumeUrl() {
-		return resumeUrl;
+	public byte[] getResumeFile() {
+		return resumeFile;
 	}
 
-	public void setResumeUrl(String resumeUrl) {
-		this.resumeUrl = resumeUrl;
+	public void setResumeFile(byte[] resumeFile) {
+		this.resumeFile = resumeFile;
+	}
+
+	public String getResumeFileName() {
+		return resumeFileName;
+	}
+
+	public void setResumeFileName(String resumeFileName) {
+		this.resumeFileName = resumeFileName;
+	}
+
+	public byte[] getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(byte[] profilePicture) {
+		this.profilePicture = profilePicture;
+	}
+
+	public String getProfilePictureType() {
+		return profilePictureType;
+	}
+
+	public void setProfilePictureType(String profilePictureType) {
+		this.profilePictureType = profilePictureType;
 	}
 
 	public List<Experience> getExperiences() {

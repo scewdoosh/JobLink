@@ -1,39 +1,18 @@
 package com.joblink.profile.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
-public class ProfileResponse {
+public class ProfileCompleteRequest {
 
-	private String id;
 	private String userId;
 	private String bio;
 	private String location;
 	private String skills;
-	private String resumeFileName;
-	private List<ExperienceResponse> experiences;
-	private List<EducationResponse> educations;
-	private LocalDateTime createdAt;
-	private boolean hasProfilePicture;
+	private List<ExperienceEntry> experiences;
+	private List<EducationEntry> educations;
 
-	public ProfileResponse() {
-	}
-
-	public boolean isHasProfilePicture() {
-		return hasProfilePicture;
-	}
-
-	public void setHasProfilePicture(boolean hasProfilePicture) {
-		this.hasProfilePicture = hasProfilePicture;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+	public ProfileCompleteRequest() {
 	}
 
 	public String getUserId() {
@@ -68,55 +47,30 @@ public class ProfileResponse {
 		this.skills = skills;
 	}
 
-	public String getResumeFileName() {
-		return resumeFileName;
-	}
-
-	public void setResumeFileName(String resumeFileName) {
-		this.resumeFileName = resumeFileName;
-	}
-
-	public List<ExperienceResponse> getExperiences() {
+	public List<ExperienceEntry> getExperiences() {
 		return experiences;
 	}
 
-	public void setExperiences(List<ExperienceResponse> experiences) {
+	public void setExperiences(List<ExperienceEntry> experiences) {
 		this.experiences = experiences;
 	}
 
-	public List<EducationResponse> getEducations() {
+	public List<EducationEntry> getEducations() {
 		return educations;
 	}
 
-	public void setEducations(List<EducationResponse> educations) {
+	public void setEducations(List<EducationEntry> educations) {
 		this.educations = educations;
 	}
 
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public static class ExperienceResponse {
-		private String id;
+	public static class ExperienceEntry {
 		private String company;
 		private String role;
 		private LocalDate startDate;
 		private LocalDate endDate;
 		private String description;
 
-		public ExperienceResponse() {
-		}
-
-		public String getId() {
-			return id;
-		}
-
-		public void setId(String id) {
-			this.id = id;
+		public ExperienceEntry() {
 		}
 
 		public String getCompany() {
@@ -160,21 +114,12 @@ public class ProfileResponse {
 		}
 	}
 
-	public static class EducationResponse {
-		private String id;
+	public static class EducationEntry {
 		private String institution;
 		private String degree;
 		private int year;
 
-		public EducationResponse() {
-		}
-
-		public String getId() {
-			return id;
-		}
-
-		public void setId(String id) {
-			this.id = id;
+		public EducationEntry() {
 		}
 
 		public String getInstitution() {

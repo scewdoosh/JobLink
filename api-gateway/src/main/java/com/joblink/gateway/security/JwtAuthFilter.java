@@ -31,6 +31,11 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();
 
+        // Allow CORS preflight requests
+        if (exchange.getRequest().getMethod().name().equalsIgnoreCase("OPTIONS")) {
+            return chain.filter(exchange);
+        }
+
         if (PUBLIC_ENDPOINTS.stream().anyMatch(path::startsWith)) {
             return chain.filter(exchange);
         }
