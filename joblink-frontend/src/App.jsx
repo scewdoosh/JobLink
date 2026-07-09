@@ -1,11 +1,9 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import { CompletionProvider } from './context/CompletionContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { CompletionProvider, useCompletion } from './context/CompletionContext';
 import { ToastProvider } from './components/Toast';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
-import ProfileGate from './components/ProfileGate';
-import CompanyGate from './components/CompanyGate';
 
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -40,43 +38,62 @@ export default function App() {
         <AuthProvider>
             <CompletionProvider>
                 <ToastProvider>
-                    <Routes>
-                        <Route element={<Layout />}>
-                            {/* Public routes */}
-                            <Route path="/" element={<Landing />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/register" element={<Register />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/contact" element={<Contact />} />
-
-
-                            {/* Employer-only routes */}
-                            <Route element={<ProtectedRoute allowedRoles={['EMPLOYER']} />}>
-                                <Route path="/company-profile" element={<CompanyProfile />} />
-                                <Route element={<CompanyGate />}>
-                                    <Route path="/post-job" element={<PostJob />} />
-                                    <Route path="/my-jobs" element={<MyJobs />} />
-                                    <Route path="/company" element={<CompanyProfile />} />
-                                    <Route path="/candidates/:userId" element={<PublicCandidateProfile />} />
-                                </Route>
-                            </Route>
-
-                            {/* Candidate-only routes */}
-                            <Route element={<ProtectedRoute allowedRoles={['CANDIDATE']} />}>
-                                <Route path="/complete-profile" element={<Profile />} />
-                                <Route element={<ProfileGate />}>
-                                    <Route path="/jobs" element={<Jobs />} />
-                                    <Route path="/jobs/:id" element={<JobDetail />} />
-                                    <Route path="/company/:employerId" element={<PublicCompanyProfile />} />
-                                    <Route path="/my-applications" element={<MyApplications />} />
-                                    <Route path="/profile" element={<Profile />} />
-                                </Route>
-                            </Route>
-                        </Route>
-                    </Routes>
+                    <MainApp />
                 </ToastProvider>
             </CompletionProvider>
         </AuthProvider>
+    );
+}
+
+function MainApp() {
+    const { isAuthenticated, isCandidate, isEmployer, loading: authLoading } = useAuth();
+    const { profileComplete, companyComplete, completionLoading } = useCompletion();
+
+    if (authLoading || completionLoading) {
+        return (
+            <div className="min-h-screen bg-[#f5f0eb] flex items-center justify-center">
+                <div className="w-8 h-8 border-3 border-[#b5621b] border-t-transparent rounded-full animate-spin" />
+            </div>
+        );
+    }
+
+    if (isAuthenticated()) {
+        if (isCandidate() && !profileComplete) {
+            return <Profile />;
+        }
+        if (isEmployer() && !companyComplete) {
+            return <CompanyProfile />;
+        }
+    }
+
+    return (
+        <Routes>
+            <Route element={<Layout />}>
+                {/* Public routes */}
+                <Route path="/" element={<Landing />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+
+                {/* Employer-only routes */}
+                <Route element={<ProtectedRoute allowedRoles={['EMPLOYER']} />}>
+                    <Route path="/post-job" element={<PostJob />} />
+                    <Route path="/my-jobs" element={<MyJobs />} />
+                    <Route path="/company" element={<CompanyProfile />} />
+                    <Route path="/candidates/:userId" element={<PublicCandidateProfile />} />
+                </Route>
+
+                {/* Candidate-only routes */}
+                <Route element={<ProtectedRoute allowedRoles={['CANDIDATE']} />}>
+                    <Route path="/jobs" element={<Jobs />} />
+                    <Route path="/jobs/:id" element={<JobDetail />} />
+                    <Route path="/company/:employerId" element={<PublicCompanyProfile />} />
+                    <Route path="/my-applications" element={<MyApplications />} />
+                    <Route path="/profile" element={<Profile />} />
+                </Route>
+            </Route>
+        </Routes>
     );
 }
 

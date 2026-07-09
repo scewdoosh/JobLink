@@ -26,9 +26,6 @@ export default function Navbar() {
         }
 
         if (isCandidate()) {
-            if (!profileComplete) {
-                return [{ to: '/complete-profile', label: 'Complete Profile' }];
-            }
             return [
                 { to: '/', label: 'Home' },
                 { to: '/jobs', label: 'Find Jobs' },
@@ -38,9 +35,6 @@ export default function Navbar() {
         }
 
         if (isEmployer()) {
-            if (!companyComplete) {
-                return [{ to: '/company-profile', label: 'Complete Company Profile' }];
-            }
             return [
                 { to: '/', label: 'Home' },
                 { to: '/post-job', label: 'Post Job' },
@@ -90,7 +84,7 @@ export default function Navbar() {
                     </div>
                 ) : (
                     <div className="flex items-center gap-3">
-                        <Link to={isCandidate() ? '/profile' : '/company-profile'} className="flex items-center gap-2 hover:bg-gray-50 px-2 py-1 rounded-full transition cursor-pointer">
+                        <Link to={isCandidate() ? '/profile' : '/company'} className="flex items-center gap-2 hover:bg-gray-50 px-2 py-1 rounded-full transition cursor-pointer">
                             <CandidateAvatar userId={user?.userId} name={user?.name || user?.email} className="w-8 h-8 text-sm" />
                             <span className="text-sm font-medium text-gray-700 hidden sm:block">{user?.name || user?.email}</span>
                         </Link>
