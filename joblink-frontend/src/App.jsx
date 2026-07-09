@@ -46,11 +46,9 @@ export default function App() {
                             <Route path="/" element={<Landing />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />
-                            <Route path="/jobs" element={<Jobs />} />
-                            <Route path="/jobs/:id" element={<JobDetail />} />
-                            <Route path="/company/:employerId" element={<PublicCompanyProfile />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/contact" element={<Contact />} />
+
 
                             {/* Employer-only routes */}
                             <Route element={<ProtectedRoute allowedRoles={['EMPLOYER']} />}>
@@ -67,6 +65,9 @@ export default function App() {
                             <Route element={<ProtectedRoute allowedRoles={['CANDIDATE']} />}>
                                 <Route path="/complete-profile" element={<Profile />} />
                                 <Route element={<ProfileGate />}>
+                                    <Route path="/jobs" element={<Jobs />} />
+                                    <Route path="/jobs/:id" element={<JobDetail />} />
+                                    <Route path="/company/:employerId" element={<PublicCompanyProfile />} />
                                     <Route path="/my-applications" element={<MyApplications />} />
                                     <Route path="/profile" element={<Profile />} />
                                 </Route>

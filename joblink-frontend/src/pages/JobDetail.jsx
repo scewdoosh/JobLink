@@ -14,6 +14,7 @@ export default function JobDetail() {
     const { addToast } = useToast();
 
     const [job, setJob] = useState(null);
+    const [company, setCompany] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [applying, setApplying] = useState(false);
@@ -26,6 +27,15 @@ export default function JobDetail() {
             try {
                 const res = await API.get(`/api/jobs/${id}`);
                 setJob(res.data);
+                
+                if (res.data.companyId) {
+                    try {
+                        const companyRes = await API.get(`/api/companies/${res.data.companyId}`);
+                        setCompany(companyRes.data);
+                    } catch (err) {
+                        console.error('Failed to load company details', err);
+                    }
+                }
             } catch {
                 setError('Failed to load job details.');
             } finally {
@@ -113,9 +123,9 @@ export default function JobDetail() {
                     <div className="flex items-start justify-between gap-4 mb-6">
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900">{job.title}</h1>
-                            {job.companyName && (
+                            {company?.name && (
                                 <Link to={`/company/${job.employerId}`} className="text-gray-500 mt-1 hover:text-[#b5621b] hover:underline transition">
-                                    {job.companyName}
+                                    {company.name}
                                 </Link>
                             )}
                         </div>
@@ -189,6 +199,51 @@ export default function JobDetail() {
                             <p className="text-sm text-amber-800 font-medium">
                                 ⏰ Application deadline: {new Date(job.deadline).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
                             </p>
+                        </div>
+                    )}
+
+                    {/* Company Details */}
+                    {company && (
+                        <div className="mb-8 bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
+                                </svg>
+                                About {company.name}
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                {company.industry && (
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Industry</p>
+                                        <p className="text-sm font-medium text-gray-800">{company.industry}</p>
+                                    </div>
+                                )}
+                                {company.size && (
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Company Size</p>
+                                        <p className="text-sm font-medium text-gray-800">{company.size}</p>
+                                    </div>
+                                )}
+                                {company.website && (
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Website</p>
+                                        <a href={company.website} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#b5621b] hover:underline flex items-center gap-1 mt-0.5">
+                                            {company.website.replace(/^https?:\/\//, '')}
+                                        </a>
+                                    </div>
+                                )}
+                                {company.location && (
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Location</p>
+                                        <p className="text-sm font-medium text-gray-800">{company.location}</p>
+                                    </div>
+                                )}
+                            </div>
+                            {company.description && (
+                                <div>
+                                    <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{company.description}</p>
+                                </div>
+                            )}
                         </div>
                     )}
 
